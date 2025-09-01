@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h2>All Appointments</h2>
+<table>
+    <tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th></tr>
+    {% for appt in appointments %}
+    <tr>
+        <td>{{ appt[1] }}</td>
+        <td>{{ appt[2] }}</td>
+        <td>{{ appt[3] }}</td>
+        <td>{{ appt[4] }}</td>
+        <td>
+            {% if appt[4]|lower == 'pending' %}
+            <a href="{{ url_for('admin_cancel_appointment', appointment_id=appt[0]) }}" onclick="return confirmCancel();">
+                ❌ Cancel
+            </a>
+            
+            {% else %}
+                {{ appt[4]|capitalize }}
+            {% endif %}
+        </td>
+        
+    </tr>
+    {% endfor %}
+</table>
+<h3 style="margin-top: 40px;">All Registered Patients</h3>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for patient in patients %}
+        <tr>
+            <td>{{ patient[0] }}</td>
+            <td>{{ patient[1] }}</td>
+            <td>{{ patient[2] }}</td>
+            <td>
+                <a href="{{ url_for('delete_patient', patient_id=patient[0]) }}"
+                   onclick="return confirm('Are you sure you want to delete this patient? This will also delete their appointments and prescriptions.');">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Doctor Dashboard{% endblock %}
+{% block content %}
+
+<h2>Welcome, Doctor</h2>
+
+{% if doctor_appointments %}
+    <h3>Your Appointments</h3>
+    <table>
+        <tr>
+            <th>Patient</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        {% for appt in doctor_appointments %}
+        <tr>
+            <td>{{ appt[1] }}</td>
+            <td>{{ appt[2] }}</td>
+            <td>{{ appt[3] }}</td>
+            <td>
+                {% if appt[3] == 'pending' %}
+                <a href="{{ url_for('confirm_appointment', appointment_id=appt[0]) }}" onclick="return confirmApproval();">
+                    ✅ Confirm
+                </a>
+                 |
+                 <a href="{{ url_for('cancel_appointment', appointment_id=appt[0]) }}" onclick="return confirmCancel();">
+                    ❌ Cancel
+                </a>
+                
+                {% else %}
+                    {{ appt[3]|capitalize }}
+                {% endif %}
+            </td>
+            <td>
+                {% if appt[3]|lower == 'confirmed' %}
+                    <a href="{{ url_for('upload_prescription', appointment_id=appt[0]) }}">Upload Prescription</a>
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No appointments found.</p>
+{% endif %}
+
+{% endblock %}
