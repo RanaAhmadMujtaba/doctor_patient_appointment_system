@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Appointments{% endblock %}
+{% block content %}
+<h2>Book Appointment</h2>
+<form action="/appointments" method="post">
+    <select name="doctor_id" required>
+        {% for doctor in doctors %}
+        <option value="{{ doctor[0] }}">{{ doctor[1] }}</option>
+        {% endfor %}
+    </select>
+    
+    <input type="date" name="appointment_date" required>
+    <button type="submit">Book Appointment</button>
+</form>
+
+<h2>My Appointments</h2>
+<table>
+    <tr><th>Doctor</th><th>Date</th><th>Status</th></tr>
+    {% for appt in appointments %}
+    <tr>
+        <td>{{ appt[1] }}</td>
+        <td>{{ appt[2] }}</td>
+        <td>{{ appt[3] }}</td>
+        <td>
+            {% if appt[3]|lower == 'pending' %}
+            <a href="{{ url_for('cancel_my_appointment', appointment_id=appt[0]) }}" onclick="return confirmCancel();">
+                ❌ Cancel
+            </a>
+            
+            {% else %}
+                {{ appt[3]|capitalize }}
+            {% endif %}
+        </td>
+    </tr>
+    
+    
+    {% endfor %}
+</table>
+
+{% endblock %}

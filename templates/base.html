@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Doctor Appointment Booking System">
+    <meta name="keywords" content="Doctor, Appointment, Booking, Hospital, Patient">
+    <meta name="author" content="SroshCityHospital">
+    <title>{% block title %}Doctor Appointment System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3177/3177361.png" type="image/png">
+</head>
+<body>
+
+    <nav class="navbar">
+         <a href="/"class="brand">➕ Doctor Appointment System</span> </a>
+        <div class="nav-left">
+          
+            
+          <a href="/">Home</a>
+          <a href="/appointments">Appointments</a>
+          <a href="/search_doctors">Search Doctors</a>
+          <a href="/medical_history">Medical History</a>
+          <a href="/doctor_dashboard">Doctor Dashboard</a>
+          <a href="/admin_dashboard">Admin Dashboard</a>
+        </div>
+        <div class="nav-right">
+          <a href="/contact_us" class="contact-button">Contact Us</a>
+          <a href="/logout" class="logout-button">Logout</a>
+        </div>
+      </nav>
+      
+      
+      
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+        {% block content %}{% endblock %}
+
+        
+    </main>
+
+    <script>
+        function togglePassword(fieldId, toggleBtn) {
+            const passwordField = document.getElementById(fieldId);
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                toggleBtn.innerText = "Hide";
+            } else {
+                passwordField.type = "password";
+                toggleBtn.innerText = "Show";
+            }
+        }
+        </script>
+
+        
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
